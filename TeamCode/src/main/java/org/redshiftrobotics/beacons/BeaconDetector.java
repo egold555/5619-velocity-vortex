@@ -1,14 +1,5 @@
 package org.redshiftrobotics.beacons;
 
-/**
- * TODO: Better docs
- * To use:
- * Create an instance somewhere (one at a time).
- * Call `startCamera()` in start()
- * Call `detect()` to try and detect a beacon.
- * Call `stopCamera()` in stop()
- */
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
@@ -18,15 +9,7 @@ import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.util.Log;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
-
 import java.io.ByteArrayOutputStream;
-import java.util.concurrent.atomic.AtomicReference;
-
-import for_camera_opmodes.CameraPreview;
 
 /**
  * All the code to take an image from the camera and recognize any beacons in it all in one class!
@@ -50,15 +33,8 @@ public class BeaconDetector {
 	public Camera camera;
 
 	/**
-	 * The (Atomic)Reference to the CameraPreview
-	 */
-	public AtomicReference<CameraPreview> cameraPreview;
-
-	/**
 	 * Private Members
 	 */
-	private FtcRobotControllerActivity appContext;
-
 	private int cameraWidth;
 	private int cameraHeight;
 	private YuvImage yuvImage = null;
@@ -67,7 +43,6 @@ public class BeaconDetector {
 
 	private boolean started;
 	private int looped = 0;
-	private String data;
 	private int ds = 4; // downsampling parameter
 
 	/**
@@ -75,27 +50,10 @@ public class BeaconDetector {
 	 */
 
 	/**
-	 * Create a BeaconDetector with an OpMode. You will probably use this constructor the most.
-	 * @param opMode the current OpMode.
+	 * Create a BeaconDetector.
 	 */
-	public BeaconDetector(OpMode opMode) {
-		new BeaconDetector(opMode.hardwareMap);
-	}
+	public BeaconDetector() {
 
-	/**
-	 * Create a BeaconDetector with just a hardwareMap.
-	 * @param hardwareMap the active hardwareMap
-	 */
-	public BeaconDetector(HardwareMap hardwareMap) {
-		new BeaconDetector((FtcRobotControllerActivity) hardwareMap.appContext);
-	}
-
-	/**
-	 * Create a BeaconDetector with just the FtcRobotControllerActivity.
-	 * @param appContext the current activity
-	 */
-	public BeaconDetector(FtcRobotControllerActivity appContext) {
-		this.appContext = appContext;
 	}
 
 	/**
@@ -142,28 +100,10 @@ public class BeaconDetector {
 		camera = openCamera(Camera.CameraInfo.CAMERA_FACING_BACK);
 
 		camera.setPreviewCallback(previewCallback);
-
-		Camera.Parameters parameters = camera.getParameters();
-
-		cameraWidth = parameters.getPreviewSize().width / ds;
-		cameraHeight = parameters.getPreviewSize().height / ds;
-		parameters.setPreviewSize(cameraWidth, cameraHeight);
-
-		// camera.setParameters(parameters);
-
-		data = parameters.flatten();
-
-		if (cameraPreview.get() == null) {
-			appContext.initPreview(camera, this.cameraPreview, previewCallback);
-		}
 	}
 
 	private void stopCamera() {
 		if (camera != null) {
-			if (cameraPreview.get() != null) {
-				appContext.removePreview(this.cameraPreview);
-				cameraPreview.set(null);
-			}
 			camera.stopPreview();
 			camera.setPreviewCallback(null);
 			if (camera != null) {
@@ -235,33 +175,6 @@ public class BeaconDetector {
 			Log.e("Error", "Can't Open Camera");
 		}
 		return cam;
-	}
-
-	static private int red(int pixel) {
-		return (pixel >> 16) & 0xff;
-	}
-
-	static private int green(int pixel) {
-		return (pixel >> 8) & 0xff;
-	}
-
-	static private int blue(int pixel) {
-		return pixel & 0xff;
-	}
-
-	static private int gray(int pixel) {
-		return (red(pixel) + green(pixel) + blue(pixel));
-	}
-
-	static private int highestColor(int red, int green, int blue) {
-		int[] color = {red, green, blue};
-		int value = 0;
-		for (int i = 1; i < 3; i++) {
-			if (color[value] < color[i]) {
-				value = i;
-			}
-		}
-		return value;
 	}
 
 	// returns ROTATED image, to match cameraPreview window
