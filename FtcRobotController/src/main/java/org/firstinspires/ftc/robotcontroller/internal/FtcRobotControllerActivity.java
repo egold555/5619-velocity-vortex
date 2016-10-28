@@ -144,7 +144,6 @@ public class FtcRobotControllerActivity extends Activity {
     public void requestRestart() {
       requestRobotRestart();
     }
-
   }
 
   /////////////////////////////////////////////////////////
@@ -570,6 +569,9 @@ public class FtcRobotControllerActivity extends Activity {
 
     eventLoop = new FtcEventLoop(factory, createOpModeRegister(), callback, this, programmingModeController);
     FtcEventLoopIdle idleLoop = new FtcEventLoopIdle(factory, callback, this, programmingModeController);
+
+    ///////////////////////////////// NEXT LINE ADDED FOR REDDASH //////////////////////////////////  
+    RedDash.setEventLoop(eventLoop);
 
     controllerService.setCallback(callback);
     controllerService.setupRobot(eventLoop, idleLoop);

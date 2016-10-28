@@ -1,4 +1,16 @@
+# Ari's Note
+This branch depends on Reddash, a project which you can find [here](https://github.com/redshiftrobotics/reddash).
+It won't build without it.
+
+On my development machine, I've symlinked the appropriate stuff. You
+likely won't be able to use this branch until I package everything up in
+a `.jar`. If you really want to, you'll need to clone that project and
+symlink it's `./java/org/redshiftrobotics/reddash` folder in to our
+`./Teamcode/src/main/java/org/redshiftrobotics` folder.
+
+
 # ftc_app
+
 FTC Android Studio project to create FTC Robot Controller app.
 
 This is the FTC SDK that can be used to create an FTC Robot Controller app, with custom op modes.

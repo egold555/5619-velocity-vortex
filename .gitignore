@@ -1,6 +1,9 @@
 
 # Created by https://www.gitignore.io/api/android,osx,linux,jetbrains,intellij,vim,windows
 
+### RedDash ###
+TeamCode/src/main/java/org/redshiftrobotics/reddash
+
 ### Developers ###
 *.gitignore.*
 
