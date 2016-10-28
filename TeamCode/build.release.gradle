@@ -1,4 +1,5 @@
 dependencies {
+    compile project(':reddash')
     compile project(':FtcRobotController')
     compile (name: 'RobotCore-release', ext: 'aar')
     compile (name: 'Hardware-release', ext: 'aar')

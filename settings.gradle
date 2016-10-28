@@ -1,2 +1,3 @@
+include ':reddash'
 include ':FtcRobotController'
 include ':TeamCode'
